@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will Crouch | Data & Dashboards</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #2b2b2b;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Dashboard Gallery Grid */
+        #gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Card Styling */
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        /* Placeholder for a thumbnail image */
+        .card-image {
+            height: 160px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            color: #2c3e50;
+        }
+
+        .card-desc {
+            margin: 0;
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* App Viewer (Hidden by default) */
+        #app-viewer {
+            display: none;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            height: 80vh;
+            flex-direction: column;
+        }
+
+        .viewer-header {
+            padding: 1rem 1.5rem;
+            background: #ecf0f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .viewer-title {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .btn-close {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-close:hover {
+            background: #c0392b;
+        }
+
+        iframe {
+            flex-grow: 1;
+            width: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Will Crouch</h1>
+        <p>Data Science & Analytics Portfolio</p>
+    </header>
+
+    <div class="container">
+        
+        <div id="gallery">
+            <div class="card" onclick="openApp('https://apps.willcrouch.com/ADR-Forecast/', 'ADR Forecast Dashboard')">
+                <div class="card-image">📈</div>
+                <div class="card-content">
+                    <h2 class="card-title">ADR Forecast</h2>
+                    <p class="card-desc">Interactive Shiny dashboard analyzing and forecasting Average Daily Rates.</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="openApp('https://apps.willcrouch.com/Another-App/', 'Customer Segmentation')">
+                <div class="card-image" style="background: linear-gradient(135deg, #1abc9c, #16a085);">📊</div>
+                <div class="card-content">
+                    <h2 class="card-title">Customer Segmentation</h2>
+                    <p class="card-desc">K-means clustering model demonstrating user behavior analysis.</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="openApp('https://apps.willcrouch.com/App-Three/', 'Sales Geospatial Map')">
+                <div class="card-image" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">🗺️</div>
+                <div class="card-content">
+                    <h2 class="card-title">Sales Territory Map</h2>
+                    <p class="card-desc">Geospatial visualization of regional sales performance metrics.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="app-viewer">
+            <div class="viewer-header">
+                <h2 id="viewer-title" class="viewer-title">App Name</h2>
+                <button class="btn-close" onclick="closeApp()">← Back to Gallery</button>
+            </div>
+            <iframe id="shiny-frame" src=""></iframe>
+        </div>
+
+    </div>
+
+    <script>
+        function openApp(url, title) {
+            // Hide the gallery
+            document.getElementById('gallery').style.display = 'none';
+            
+            // Update the viewer title and iframe source
+            document.getElementById('viewer-title').innerText = title;
+            document.getElementById('shiny-frame').src = url;
+            
+            // Show the app viewer
+            document.getElementById('app-viewer').style.display = 'flex';
+        }
+
+        function closeApp() {
+            // Hide the app viewer
+            document.getElementById('app-viewer').style.display = 'none';
+            
+            // Clear the iframe source so it stops running in the background
+            document.getElementById('shiny-frame').src = '';
+            
+            // Show the gallery again
+            document.getElementById('gallery').style.display = 'grid';
+        }
+    </script>
+
+</body>
+</html>
