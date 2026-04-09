@@ -3,207 +3,520 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will Crouch | Data & Dashboards</title>
+    <title>Will Crouch | Data & Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Base Styles */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #2b2b2b;
+        :root {
+            --black:   #111111;
+            --mid:     #444444;
+            --light:   #888888;
+            --teal:    #4aacb8;
+            --blue:    #3a6ea5;
+            --rule:    #cccccc;
+            --white:   #ffffff;
         }
-        
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 2rem 1rem;
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: var(--white);
+            color: var(--black);
+        }
+
+        /* ── HEADER ── */
+        .site-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 2rem 0;
+        }
+
+        .site-header img {
+            height: 80px;
+            width: auto;
+            margin-bottom: 1.25rem;
+        }
+
+        .header-rule {
+            width: 100%;
+            height: 1px;
+            background: var(--rule);
+        }
+
+        /* ── NAV ── */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            padding: 0.9rem 2rem;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        nav a {
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: var(--mid);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        nav a:hover { color: var(--teal); }
+
+        /* ── HERO ── */
+        #home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 7rem 2rem 6rem;
             text-align: center;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
+        .hero-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(4rem, 10vw, 7.5rem);
+            font-weight: 300;
+            letter-spacing: 0.18em;
+            color: var(--black);
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: 1.75rem;
         }
 
-        header p {
-            margin: 0.5rem 0 0 0;
-            opacity: 0.8;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        /* Dashboard Gallery Grid */
-        #gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        /* Card Styling */
-        .card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-
-        /* Placeholder for a thumbnail image */
-        .card-image {
-            height: 160px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-        }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .card-title {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.25rem;
-            color: #2c3e50;
-        }
-
-        .card-desc {
-            margin: 0;
-            color: #6c757d;
+        .hero-tagline {
             font-size: 0.95rem;
-            line-height: 1.5;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            color: var(--mid);
         }
 
-        /* App Viewer (Hidden by default) */
-        #app-viewer {
-            display: none;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            overflow: hidden;
-            height: 80vh;
-            flex-direction: column;
+        .hero-tagline .sep { margin: 0 0.6rem; color: var(--mid); }
+        .hero-tagline .accent-teal { color: var(--teal); }
+        .hero-tagline .accent-blue { color: var(--blue); }
+
+        .hero-cta {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .viewer-header {
-            padding: 1rem 1.5rem;
-            background: #ecf0f1;
+        .btn {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 0.65rem 1.75rem;
+            border: 1px solid var(--rule);
+            color: var(--mid);
+            transition: all 0.2s;
+            cursor: pointer;
+            background: none;
+        }
+
+        .btn:hover { border-color: var(--teal); color: var(--teal); }
+
+        /* ── SECTIONS ── */
+        .section-wrap {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            border-top: 1px solid var(--rule);
+        }
+
+        .section-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--black);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        /* ── HIGHLIGHTS ── */
+        .highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .chip {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--mid);
+            border: 1px solid var(--rule);
+            padding: 0.35rem 0.85rem;
+        }
+
+        /* ── RESUME GRID ── */
+        .resume-grid {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .subsection-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 1.5rem;
+        }
+
+        .job {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .job:last-child { border-bottom: none; }
+
+        .job-meta {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
+            align-items: baseline;
+            margin-bottom: 0.25rem;
+            flex-wrap: wrap;
+            gap: 0.25rem;
         }
 
-        .viewer-title {
-            margin: 0;
+        .job-company {
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--teal);
+        }
+
+        .job-date {
+            font-size: 0.75rem;
+            color: var(--light);
+        }
+
+        .job-title {
+            font-family: 'Cormorant Garamond', serif;
             font-size: 1.25rem;
             font-weight: 600;
+            color: var(--black);
+            margin-bottom: 0.75rem;
         }
 
-        .btn-close {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
+        .job ul { list-style: none; padding: 0; }
+
+        .job ul li {
+            font-size: 0.84rem;
+            color: var(--mid);
+            line-height: 1.7;
+            padding-left: 1rem;
+            position: relative;
+            margin-bottom: 0.2rem;
+        }
+
+        .job ul li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--rule);
+            font-size: 0.7rem;
+            top: 0.15em;
+        }
+
+        /* Sidebar */
+        .edu-block { margin-bottom: 1.75rem; }
+
+        .edu-school {
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 0.2rem;
+        }
+
+        .edu-degree {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            color: var(--black);
+            line-height: 1.4;
+        }
+
+        .patent-section { margin-top: 2.5rem; }
+
+        .patent-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 0.6rem;
+        }
+
+        .patent-link {
+            font-size: 0.82rem;
+            color: var(--mid);
+            line-height: 1.6;
+            text-decoration: none;
+            display: block;
+        }
+
+        .patent-link:hover { color: var(--teal); }
+
+        /* ── PROJECTS ── */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            border: 1px solid var(--rule);
+        }
+
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.75rem;
+            text-decoration: none;
+            color: inherit;
+            border-right: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
             transition: background 0.2s;
         }
 
-        .btn-close:hover {
-            background: #c0392b;
+        .project-card:hover { background: #f9fafa; }
+
+        .card-tag {
+            font-size: 0.66rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 0.5rem;
         }
 
-        iframe {
-            flex-grow: 1;
-            width: 100%;
-            border: none;
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 0.6rem;
+        }
+
+        .card-desc {
+            font-size: 0.82rem;
+            color: var(--light);
+            line-height: 1.65;
+            flex: 1;
+        }
+
+        .card-arrow {
+            margin-top: 1.25rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--mid);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--rule);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.78rem;
+            color: var(--light);
+            letter-spacing: 0.08em;
+        }
+
+        footer a { color: var(--teal); text-decoration: none; }
+
+        @media (max-width: 700px) {
+            .resume-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-name { letter-spacing: 0.08em; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Will Crouch</h1>
-        <p>Data Science & Analytics Portfolio</p>
-    </header>
+<header class="site-header">
+    <img src="https://static.wixstatic.com/media/7cb1ca_13723b0b081443f8bad19e61bb418c31~mv2.png/v1/fill/w_70,h_80,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Will%20Crouch%20Logo.png" alt="Will Crouch Logo">
+    <div class="header-rule"></div>
+</header>
 
-    <div class="container">
-        
-        <div id="gallery">
-            <div class="card" onclick="openApp('https://apps.willcrouch.com/ADR-Forecast/', 'ADR Forecast Dashboard')">
-                <div class="card-image">📈</div>
-                <div class="card-content">
-                    <h2 class="card-title">ADR Forecast</h2>
-                    <p class="card-desc">Interactive Shiny dashboard analyzing and forecasting Average Daily Rates.</p>
-                </div>
-            </div>
+<nav>
+    <a href="#home">Home</a>
+    <a href="#resume">Resume</a>
+    <a href="#projects">Projects</a>
+</nav>
 
-            <div class="card" onclick="openApp('https://apps.willcrouch.com/Another-App/', 'Customer Segmentation')">
-                <div class="card-image" style="background: linear-gradient(135deg, #1abc9c, #16a085);">📊</div>
-                <div class="card-content">
-                    <h2 class="card-title">Customer Segmentation</h2>
-                    <p class="card-desc">K-means clustering model demonstrating user behavior analysis.</p>
-                </div>
-            </div>
+<section id="home">
+    <h1 class="hero-name">Will Crouch</h1>
+    <p class="hero-tagline">
+        Operations
+        <span class="sep">|</span>
+        <span class="accent-teal">Analytics</span>
+        <span class="sep">|</span>
+        <span class="accent-blue">Implementation</span>
+    </p>
+    <div class="hero-cta">
+        <a href="#projects" class="btn">View Projects</a>
+        <a href="#resume" class="btn">Resume</a>
+    </div>
+</section>
 
-            <div class="card" onclick="openApp('https://apps.willcrouch.com/App-Three/', 'Sales Geospatial Map')">
-                <div class="card-image" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">🗺️</div>
-                <div class="card-content">
-                    <h2 class="card-title">Sales Territory Map</h2>
-                    <p class="card-desc">Geospatial visualization of regional sales performance metrics.</p>
-                </div>
-            </div>
-        </div>
+<div id="resume" class="section-wrap">
+    <h2 class="section-heading">Resume</h2>
 
-        <div id="app-viewer">
-            <div class="viewer-header">
-                <h2 id="viewer-title" class="viewer-title">App Name</h2>
-                <button class="btn-close" onclick="closeApp()">← Back to Gallery</button>
-            </div>
-            <iframe id="shiny-frame" src=""></iframe>
-        </div>
-
+    <div class="highlights">
+        <span class="chip">ML &amp; AI Strategy</span>
+        <span class="chip">Business &amp; Data Strategy</span>
+        <span class="chip">ERP Implementation</span>
+        <span class="chip">Project Management</span>
+        <span class="chip">ML &amp; AI Development</span>
+        <span class="chip">Financial Strategy &amp; Planning</span>
+        <span class="chip">Business Development</span>
     </div>
 
-    <script>
-        function openApp(url, title) {
-            // Hide the gallery
-            document.getElementById('gallery').style.display = 'none';
-            
-            // Update the viewer title and iframe source
-            document.getElementById('viewer-title').innerText = title;
-            document.getElementById('shiny-frame').src = url;
-            
-            // Show the app viewer
-            document.getElementById('app-viewer').style.display = 'flex';
-        }
+    <div class="resume-grid">
+        <div>
+            <p class="subsection-label">Work Experience</p>
 
-        function closeApp() {
-            // Hide the app viewer
-            document.getElementById('app-viewer').style.display = 'none';
-            
-            // Clear the iframe source so it stops running in the background
-            document.getElementById('shiny-frame').src = '';
-            
-            // Show the gallery again
-            document.getElementById('gallery').style.display = 'grid';
-        }
-    </script>
+            <div class="job">
+                <div class="job-meta">
+                    <span class="job-company">Apogee Travel</span>
+                    <span class="job-date">July 2022 – Present</span>
+                </div>
+                <h3 class="job-title">Vice President of Finance and Analytics</h3>
+                <ul>
+                    <li>Developed 5-year financial plan supporting $15MM in Angel &amp; Seed investments with zero-based budgeting and revenue projection tools</li>
+                    <li>Collaborated with legal counsel on IP strategy; initiated patent filing</li>
+                    <li>Created a statistical model to validate the business concept, converted into an interactive investor tool</li>
+                    <li>Negotiated a 3-year NetSuite renewal and implemented ERP and CRM in a 6-month launch</li>
+                    <li>Led a Deloitte engagement for ERP implementation, overseeing transition to ACS</li>
+                    <li>Built macroeconomic forecast models and a dynamic advertising returns model optimizing $300K in marketing spend</li>
+                    <li>Created compelling sales models showcasing Apogee's value proposition and mitigating customer risk</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-meta">
+                    <span class="job-company">Pike Electric</span>
+                    <span class="job-date">Feb 2020 – June 2022</span>
+                </div>
+                <h3 class="job-title">Director of Fleet Systems and Analytics</h3>
+                <ul>
+                    <li>Developed an analytics team supporting core operations through statistical models and an IT partnership</li>
+                    <li>Created a 5-year data strategy roadmap for a $1B fleet asset portfolio</li>
+                    <li>Built and deployed the first fully automated regression and tree models for fleet operations</li>
+                    <li>Transformed fleet data entry to mobile, reducing backlog from 3 months to real-time and cutting error rate by 98%</li>
+                    <li>Led implementation of a mobile repair application for a 12,000+ unit fleet</li>
+                    <li>Developed an inventory clearinghouse that reduced spend by $100K per month</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-meta">
+                    <span class="job-company">Pike Electric</span>
+                    <span class="job-date">Oct 2015 – Jan 2020</span>
+                </div>
+                <h3 class="job-title">Financial Analyst</h3>
+                <ul>
+                    <li>Co-created a mobile application transforming field operations for fleet repairs</li>
+                    <li>Co-led development of custom software combining 12+ data sources for new productivity analytics</li>
+                    <li>Product owner for a $3M project converting GPS data from 5,000+ units into structured analytics</li>
+                    <li>Designed and managed a 5-year bid model for a $1B contract</li>
+                    <li>Co-led 3 robotic process automation projects covering $100M in annual cost</li>
+                    <li>Budgeted for a $200M business unit with algorithmic forecasting implementation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div>
+            <p class="subsection-label">Education</p>
+            <div class="edu-block">
+                <div class="edu-school">Johns Hopkins University</div>
+                <div class="edu-degree">M.S. Applied &amp; Computational Mathematics</div>
+            </div>
+            <div class="edu-block">
+                <div class="edu-school">Wake Forest University</div>
+                <div class="edu-degree">Master of Business Administration</div>
+            </div>
+            <div class="edu-block">
+                <div class="edu-school">Belmont Abbey College</div>
+                <div class="edu-degree">B.A. Business Management</div>
+            </div>
+
+            <div class="patent-section">
+                <p class="patent-label">Patent</p>
+                <a class="patent-link" href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/11593726" target="_blank">
+                    US-11593726-B2: System for Collecting and Analyzing Equipment Telematic Data →
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="projects" class="section-wrap">
+    <h2 class="section-heading">Projects</h2>
+    <div class="projects-grid">
+
+        <a class="project-card" href="https://apps.willcrouch.com/ADR-Forecast/" target="_blank">
+            <div class="card-tag">Forecasting</div>
+            <div class="card-title">ADR Forecast Dashboard</div>
+            <p class="card-desc">Interactive Shiny dashboard analyzing and forecasting Average Daily Rates with time-series modeling.</p>
+            <div class="card-arrow">Open App →</div>
+        </a>
+
+        <a class="project-card" href="https://apps.willcrouch.com/CostSim/" target="_blank">
+            <div class="card-tag">Simulation</div>
+            <div class="card-title">Cost Simulation</div>
+            <p class="card-desc">Monte Carlo cost simulation tool for exploring probabilistic outcomes across operational scenarios.</p>
+            <div class="card-arrow">Open App →</div>
+        </a>
+
+        <a class="project-card" href="https://apps.willcrouch.com/Estimation-Comparison" target="_blank">
+            <div class="card-tag">Statistics</div>
+            <div class="card-title">Estimation Comparison</div>
+            <p class="card-desc">Side-by-side comparison of statistical estimation methods and their performance characteristics.</p>
+            <div class="card-arrow">Open App →</div>
+        </a>
+
+        <a class="project-card" href="https://apps.willcrouch.com/Distance" target="_blank">
+            <div class="card-tag">Geospatial</div>
+            <div class="card-title">Geospatial Distance</div>
+            <p class="card-desc">Geospatial distance calculation and visualization for territory and logistics analysis.</p>
+            <div class="card-arrow">Open App →</div>
+        </a>
+
+        <a class="project-card" href="http://apps.willcrouch.com/Decay" target="_blank">
+            <div class="card-tag">Marketing Analytics</div>
+            <div class="card-title">ROI Decay Model</div>
+            <p class="card-desc">Models the decay of marketing ROI over time to optimize ad spend allocation and timing.</p>
+            <div class="card-arrow">Open App →</div>
+        </a>
+
+        <a class="project-card" href="https://apps.willcrouch.com/Elevator/" target="_blank">
+            <div class="card-tag">Probability</div>
+            <div class="card-title">Elevator Probability</div>
+            <p class="card-desc">Probabilistic simulation exploring wait-time and capacity distributions in elevator systems.</p>
+            <div class="card-arrow">Open App →</div>
+        </a>
+
+        <a class="project-card" href="https://www.willcrouch.com/ai-implementation" target="_blank">
+            <div class="card-tag">AI / ML</div>
+            <div class="card-title">AI Implementation</div>
+            <p class="card-desc">Enterprise AI implementation framework and case studies from real-world deployments.</p>
+            <div class="card-arrow">Read More →</div>
+        </a>
+
+    </div>
+</div>
+
+<footer>
+    © 2025 Will Crouch &nbsp;·&nbsp; <a href="https://www.willcrouch.com" target="_blank">willcrouch.com</a>
+</footer>
 
 </body>
 </html>
