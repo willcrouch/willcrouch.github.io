@@ -272,7 +272,7 @@
         /* ── PROJECTS ── */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             border: 1px solid var(--rule);
         }
 
@@ -285,9 +285,10 @@
             border-right: 1px solid var(--rule);
             border-bottom: 1px solid var(--rule);
             transition: background 0.2s;
+            cursor: pointer;
         }
 
-        .project-card:hover { background: #f9fafa; }
+        .project-card:hover { background: #f4fbfc; }
 
         .card-tag {
             font-size: 0.66rem;
@@ -318,6 +319,71 @@
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--mid);
+        }
+
+        /* ── APP VIEWER ── */
+        #app-viewer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            flex-direction: column;
+            background: var(--white);
+        }
+
+        .viewer-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--rule);
+            flex-shrink: 0;
+            background: var(--white);
+        }
+
+        .viewer-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .viewer-tag {
+            font-size: 0.66rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--teal);
+        }
+
+        #viewer-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .btn-back {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--mid);
+            border: 1px solid var(--rule);
+            padding: 0.5rem 1.25rem;
+            background: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover { border-color: var(--teal); color: var(--teal); }
+
+        #viewer-frame {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
+
+        @media (max-width: 700px) {
+            .projects-grid { grid-template-columns: 1fr; }
         }
 
         /* ── FOOTER ── */
@@ -458,65 +524,96 @@
     </div>
 </div>
 
-<div id="projects" class="section-wrap">
+<div id="projects" class="section-wrap" style="max-width:100%;padding-left:0;padding-right:0;">
     <h2 class="section-heading">Projects</h2>
     <div class="projects-grid">
 
-        <a class="project-card" href="https://apps.willcrouch.com/ADR-Forecast/" target="_blank">
+        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/ADR-Forecast/', 'ADR Forecast Dashboard', 'Forecasting')">
             <div class="card-tag">Forecasting</div>
             <div class="card-title">ADR Forecast Dashboard</div>
             <p class="card-desc">Interactive Shiny dashboard analyzing and forecasting Average Daily Rates with time-series modeling.</p>
             <div class="card-arrow">Open App →</div>
-        </a>
+        </div>
 
-        <a class="project-card" href="https://apps.willcrouch.com/CostSim/" target="_blank">
+        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/CostSim/', 'Cost Simulation', 'Simulation')">
             <div class="card-tag">Simulation</div>
             <div class="card-title">Cost Simulation</div>
             <p class="card-desc">Monte Carlo cost simulation tool for exploring probabilistic outcomes across operational scenarios.</p>
             <div class="card-arrow">Open App →</div>
-        </a>
+        </div>
 
-        <a class="project-card" href="https://apps.willcrouch.com/Estimation-Comparison" target="_blank">
+        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/Estimation-Comparison', 'Estimation Comparison', 'Statistics')">
             <div class="card-tag">Statistics</div>
             <div class="card-title">Estimation Comparison</div>
             <p class="card-desc">Side-by-side comparison of statistical estimation methods and their performance characteristics.</p>
             <div class="card-arrow">Open App →</div>
-        </a>
+        </div>
 
-        <a class="project-card" href="https://apps.willcrouch.com/Distance" target="_blank">
+        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/Distance', 'Geospatial Distance', 'Geospatial')">
             <div class="card-tag">Geospatial</div>
             <div class="card-title">Geospatial Distance</div>
             <p class="card-desc">Geospatial distance calculation and visualization for territory and logistics analysis.</p>
             <div class="card-arrow">Open App →</div>
-        </a>
+        </div>
 
-        <a class="project-card" href="http://apps.willcrouch.com/Decay" target="_blank">
+        <div class="project-card" onclick="openApp('http://apps.willcrouch.com/Decay', 'ROI Decay Model', 'Marketing Analytics')">
             <div class="card-tag">Marketing Analytics</div>
             <div class="card-title">ROI Decay Model</div>
             <p class="card-desc">Models the decay of marketing ROI over time to optimize ad spend allocation and timing.</p>
             <div class="card-arrow">Open App →</div>
-        </a>
+        </div>
 
-        <a class="project-card" href="https://apps.willcrouch.com/Elevator/" target="_blank">
+        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/Elevator/', 'Elevator Probability', 'Probability')">
             <div class="card-tag">Probability</div>
             <div class="card-title">Elevator Probability</div>
             <p class="card-desc">Probabilistic simulation exploring wait-time and capacity distributions in elevator systems.</p>
             <div class="card-arrow">Open App →</div>
-        </a>
+        </div>
 
-        <a class="project-card" href="https://www.willcrouch.com/ai-implementation" target="_blank">
+        <div class="project-card" onclick="openApp('https://www.willcrouch.com/ai-implementation', 'AI Implementation', 'AI / ML')">
             <div class="card-tag">AI / ML</div>
             <div class="card-title">AI Implementation</div>
             <p class="card-desc">Enterprise AI implementation framework and case studies from real-world deployments.</p>
             <div class="card-arrow">Read More →</div>
-        </a>
+        </div>
 
     </div>
+</div>
+
+<!-- APP VIEWER -->
+<div id="app-viewer">
+    <div class="viewer-bar">
+        <div class="viewer-bar-left">
+            <span id="viewer-tag" class="viewer-tag"></span>
+            <span id="viewer-title"></span>
+        </div>
+        <button class="btn-back" onclick="closeApp()">← Back to Portfolio</button>
+    </div>
+    <iframe id="viewer-frame" src=""></iframe>
 </div>
 
 <footer>
     © 2025 Will Crouch &nbsp;·&nbsp; <a href="https://www.willcrouch.com" target="_blank">willcrouch.com</a>
 </footer>
 
+<script>
+    function openApp(url, title, tag) {
+        document.getElementById('viewer-tag').textContent = tag;
+        document.getElementById('viewer-title').textContent = title;
+        document.getElementById('viewer-frame').src = url;
+        document.getElementById('app-viewer').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeApp() {
+        document.getElementById('app-viewer').style.display = 'none';
+        document.getElementById('viewer-frame').src = '';
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeApp();
+    });
+</script>
 </body>
 </html>
