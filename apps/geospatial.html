@@ -1,10 +1,10 @@
 <div class="app-nav">
-    <div class="app-tab active" onclick="switchTab('tab-distance')">Distance</div>
+    <div class="app-tab" onclick="switchTab('tab-distance')">Distance</div>
     <div class="app-tab" onclick="switchTab('tab-ratio')">Radius vs Block</div>
-    <div class="app-tab" onclick="switchTab('tab-globe')">Global Distance</div>
+    <div class="app-tab active" onclick="switchTab('tab-globe')">Global Distance</div>
 </div>
 
-<div id="tab-distance" class="app-content active">
+<div id="tab-distance" class="app-content">
     <div class="box text-content">
         <h2 class="box-title">Distance Calculations</h2>
         <p><b>A review of distance calculations and a retrospective on simple bounding.</b></p>
@@ -50,25 +50,35 @@
     </div>
 </div>
 
-<div id="tab-globe" class="app-content">
+<div id="tab-globe" class="app-content active">
     <div class="grid-2">
         <div>
-            <div class="grid-2" style="margin-bottom: 1rem;">
-                <div class="input-group">
-                    <label>Latitude 1</label>
-                    <input type="number" id="lat1" value="25.780161" step="0.0001">
+            <div style="margin-bottom: 2rem;">
+                <!-- Location 1 -->
+                <h3 class="location-header">Location 1</h3>
+                <div class="coord-inputs">
+                    <div class="input-group">
+                        <label>Latitude</label>
+                        <input type="number" id="lat1" value="25.780161" step="0.0001">
+                    </div>
+                    <div class="input-group">
+                        <label>Longitude</label>
+                        <input type="number" id="lon1" value="-80.130341" step="0.0001">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>Longitude 1</label>
-                    <input type="number" id="lon1" value="-80.130341" step="0.0001">
-                </div>
-                <div class="input-group">
-                    <label>Latitude 2</label>
-                    <input type="number" id="lat2" value="25.780151" step="0.0001">
-                </div>
-                <div class="input-group">
-                    <label>Longitude 2</label>
-                    <input type="number" id="lon2" value="-80.128388" step="0.0001">
+
+                <!-- Location 2 -->
+                <h3 class="location-header" style="margin-top: 2rem;">Location 2</h3>
+                <p class="map-helper-text">📍 Click anywhere on the map to automatically update these coordinates.</p>
+                <div class="coord-inputs">
+                    <div class="input-group">
+                        <label>Latitude</label>
+                        <input type="number" id="lat2" value="25.780151" step="0.0001">
+                    </div>
+                    <div class="input-group">
+                        <label>Longitude</label>
+                        <input type="number" id="lon2" value="-80.128388" step="0.0001">
+                    </div>
                 </div>
             </div>
             <div class="box" style="padding:0;">
@@ -107,6 +117,6 @@
         </div>
     </div>
     <div class="box text-content" style="margin-top: 2rem;">
-        <p>Above is a comparison between 3 alternate formulas compared to the haversine formula... Most of the errors are between 0 and +/- 5% from the haversine calculation.</p>
+        <p>Above is a comparison between 3 alternate formulas compared to the haversine formula. Errors are +/- 5% from the haversine calculation when under 1,000 KM.</p>
     </div>
 </div>
