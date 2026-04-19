@@ -4,9 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will Crouch | Data & Analytics</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+          },
+          svg: { fontCache: 'global' }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
     <style>
+        /* (KEEP ALL YOUR ORIGINAL CSS STYLES HERE FROM THE PREVIOUS MESSAGE) */
         :root {
             --black:   #111111;
             --mid:     #444444;
@@ -15,393 +34,112 @@
             --blue:    #3a6ea5;
             --rule:    #cccccc;
             --white:   #ffffff;
+            --bg-gray: #f9fafb;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
 
-        body {
-            font-family: 'Raleway', sans-serif;
-            background: var(--white);
-            color: var(--black);
-        }
+        body { font-family: 'Raleway', sans-serif; background: var(--white); color: var(--black); }
 
-        /* ── HEADER ── */
-        .site-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem 2rem 0;
-        }
+        .site-header { display: flex; flex-direction: column; align-items: center; padding: 2rem 2rem 0; }
+        .site-header img { height: 80px; width: auto; margin-bottom: 1.25rem; }
+        .header-rule { width: 100%; height: 1px; background: var(--rule); }
 
-        .site-header img {
-            height: 80px;
-            width: auto;
-            margin-bottom: 1.25rem;
-        }
-
-        .header-rule {
-            width: 100%;
-            height: 1px;
-            background: var(--rule);
-        }
-
-        /* ── NAV ── */
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            padding: 0.9rem 2rem;
-            border-bottom: 1px solid var(--rule);
-        }
-
-        nav a {
-            font-size: 0.82rem;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            color: var(--mid);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
+        nav { display: flex; justify-content: center; gap: 2.5rem; padding: 0.9rem 2rem; border-bottom: 1px solid var(--rule); }
+        nav a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; color: var(--mid); text-decoration: none; transition: color 0.2s; }
         nav a:hover { color: var(--teal); }
 
-        /* ── HERO ── */
-        #home {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 7rem 2rem 6rem;
-            text-align: center;
-        }
-
-        .hero-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(4rem, 10vw, 7.5rem);
-            font-weight: 300;
-            letter-spacing: 0.06em;
-            color: var(--black);
-            text-transform: uppercase;
-            line-height: 1;
-            margin-bottom: 1.75rem;
-        }
-
-        .hero-tagline {
-            font-size: 0.95rem;
-            font-weight: 400;
-            letter-spacing: 0.12em;
-            color: var(--mid);
-        }
-
+        #home { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 7rem 2rem 6rem; text-align: center; }
+        .hero-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(4rem, 10vw, 7.5rem); font-weight: 300; letter-spacing: 0.06em; color: var(--black); text-transform: uppercase; line-height: 1; margin-bottom: 1.75rem; }
+        .hero-tagline { font-size: 0.95rem; font-weight: 400; letter-spacing: 0.12em; color: var(--mid); }
         .hero-tagline .sep { margin: 0 0.6rem; color: var(--mid); }
         .hero-tagline .accent-teal { color: var(--teal); }
         .hero-tagline .accent-blue { color: var(--blue); }
 
-        .hero-cta {
-            margin-top: 2.5rem;
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            text-decoration: none;
-            padding: 0.65rem 1.75rem;
-            border: 1px solid var(--rule);
-            color: var(--mid);
-            transition: all 0.2s;
-            cursor: pointer;
-            background: none;
-        }
-
+        .hero-cta { margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 0.65rem 1.75rem; border: 1px solid var(--rule); color: var(--mid); transition: all 0.2s; cursor: pointer; background: none; }
         .btn:hover { border-color: var(--teal); color: var(--teal); }
 
-        /* ── SECTIONS ── */
-        .section-wrap {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
-            border-top: 1px solid var(--rule);
-        }
+        .section-wrap { max-width: 960px; margin: 0 auto; padding: 5rem 2rem; border-top: 1px solid var(--rule); }
+        .section-heading { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: var(--black); text-align: center; margin-bottom: 3rem; }
 
-        .section-heading {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.4rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--black);
-            text-align: center;
-            margin-bottom: 3rem;
-        }
+        .highlights { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 3.5rem; }
+        .chip { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--mid); border: 1px solid var(--rule); padding: 0.35rem 0.85rem; }
 
-        /* ── HIGHLIGHTS ── */
-        .highlights {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-bottom: 3.5rem;
-        }
-
-        .chip {
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            color: var(--mid);
-            border: 1px solid var(--rule);
-            padding: 0.35rem 0.85rem;
-        }
-
-        /* ── RESUME GRID ── */
-        .resume-grid {
-            display: grid;
-            grid-template-columns: 1fr 280px;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        .subsection-label {
-            font-size: 0.68rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--teal);
-            margin-bottom: 1.5rem;
-        }
-
-        .job {
-            margin-bottom: 2.5rem;
-            padding-bottom: 2.5rem;
-            border-bottom: 1px solid #eeeeee;
-        }
-
+        .resume-grid { display: grid; grid-template-columns: 1fr 280px; gap: 4rem; align-items: start; }
+        .subsection-label { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.5rem; }
+        .job { margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid #eeeeee; }
         .job:last-child { border-bottom: none; }
-
-        .job-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 0.25rem;
-            flex-wrap: wrap;
-            gap: 0.25rem;
-        }
-
-        .job-company {
-            font-size: 0.7rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--teal);
-        }
-
-        .job-date {
-            font-size: 0.75rem;
-            color: var(--light);
-        }
-
-        .job-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--black);
-            margin-bottom: 0.75rem;
-        }
-
+        .job-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem; flex-wrap: wrap; gap: 0.25rem; }
+        .job-company { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); }
+        .job-date { font-size: 0.75rem; color: var(--light); }
+        .job-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; color: var(--black); margin-bottom: 0.75rem; }
         .job ul { list-style: none; padding: 0; }
+        .job ul li { font-size: 0.84rem; color: var(--mid); line-height: 1.7; padding-left: 1rem; position: relative; margin-bottom: 0.2rem; }
+        .job ul li::before { content: '—'; position: absolute; left: 0; color: var(--rule); font-size: 0.7rem; top: 0.15em; }
 
-        .job ul li {
-            font-size: 0.84rem;
-            color: var(--mid);
-            line-height: 1.7;
-            padding-left: 1rem;
-            position: relative;
-            margin-bottom: 0.2rem;
-        }
-
-        .job ul li::before {
-            content: '—';
-            position: absolute;
-            left: 0;
-            color: var(--rule);
-            font-size: 0.7rem;
-            top: 0.15em;
-        }
-
-        /* Sidebar */
         .edu-block { margin-bottom: 1.75rem; }
-
-        .edu-school {
-            font-size: 0.68rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--blue);
-            margin-bottom: 0.2rem;
-        }
-
-        .edu-degree {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.05rem;
-            color: var(--black);
-            line-height: 1.4;
-        }
-
+        .edu-school { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.2rem; }
+        .edu-degree { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--black); line-height: 1.4; }
         .patent-section { margin-top: 2.5rem; }
-
-        .patent-label {
-            font-size: 0.68rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--teal);
-            margin-bottom: 0.6rem;
-        }
-
-        .patent-link {
-            font-size: 0.82rem;
-            color: var(--mid);
-            line-height: 1.6;
-            text-decoration: none;
-            display: block;
-        }
-
+        .patent-label { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.6rem; }
+        .patent-link { font-size: 0.82rem; color: var(--mid); line-height: 1.6; text-decoration: none; display: block; }
         .patent-link:hover { color: var(--teal); }
 
-        /* ── PROJECTS ── */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            border: 1px solid var(--rule);
-        }
-
-        .project-card {
-            display: flex;
-            flex-direction: column;
-            padding: 2rem 1.75rem;
-            text-decoration: none;
-            color: inherit;
-            border-right: 1px solid var(--rule);
-            border-bottom: 1px solid var(--rule);
-            transition: background 0.2s;
-            cursor: pointer;
-        }
-
+        .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--rule); }
+        .project-card { display: flex; flex-direction: column; padding: 2rem 1.75rem; text-decoration: none; color: inherit; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); transition: background 0.2s; cursor: pointer; }
         .project-card:hover { background: #f4fbfc; }
+        .card-tag { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.5rem; }
+        .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--black); margin-bottom: 0.6rem; }
+        .card-desc { font-size: 0.82rem; color: var(--light); line-height: 1.65; flex: 1; }
+        .card-arrow { margin-top: 1.25rem; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid); }
 
-        .card-tag {
-            font-size: 0.66rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--teal);
-            margin-bottom: 0.5rem;
-        }
-
-        .card-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--black);
-            margin-bottom: 0.6rem;
-        }
-
-        .card-desc {
-            font-size: 0.82rem;
-            color: var(--light);
-            line-height: 1.65;
-            flex: 1;
-        }
-
-        .card-arrow {
-            margin-top: 1.25rem;
-            font-size: 0.72rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--mid);
-        }
-
-        /* ── APP VIEWER ── */
-        #app-viewer {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 500;
-            flex-direction: column;
-            background: var(--white);
-        }
-
-        .viewer-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem 1.5rem;
-            border-bottom: 1px solid var(--rule);
-            flex-shrink: 0;
-            background: var(--white);
-        }
-
-        .viewer-bar-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .viewer-tag {
-            font-size: 0.66rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--teal);
-        }
-
-        #viewer-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--black);
-        }
-
-        .btn-back {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--mid);
-            border: 1px solid var(--rule);
-            padding: 0.5rem 1.25rem;
-            background: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
+        #app-viewer { display: none; position: fixed; inset: 0; z-index: 500; flex-direction: column; background: var(--bg-gray); }
+        .viewer-bar { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--rule); flex-shrink: 0; background: var(--white); }
+        .viewer-bar-left { display: flex; align-items: center; gap: 1rem; }
+        .viewer-tag { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); }
+        #viewer-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--black); }
+        .btn-back { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); border: 1px solid var(--rule); padding: 0.5rem 1.25rem; background: none; cursor: pointer; transition: all 0.2s; }
         .btn-back:hover { border-color: var(--teal); color: var(--teal); }
-
-        #viewer-frame {
-            flex: 1;
-            width: 100%;
-            border: none;
-        }
+        
+        #viewer-frame { flex: 1; width: 100%; border: none; display: none; }
+        
+        #native-app-container { flex: 1; display: none; flex-direction: column; overflow-y: auto; }
+        .native-app-wrapper { display: flex; flex-direction: column; flex: 1; }
+        
+        .app-nav { display: flex; background: var(--white); border-bottom: 1px solid var(--rule); padding: 0 1.5rem; }
+        .app-tab { padding: 1rem 1.5rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--light); border-bottom: 2px solid transparent; }
+        .app-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+        .app-content { padding: 2rem; max-width: 1200px; margin: 0 auto; width: 100%; display: none; }
+        .app-content.active { display: block; }
+        
+        .box { background: var(--white); padding: 1.5rem; border: 1px solid var(--rule); margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .box-title { font-size: 1.2rem; font-family: 'Cormorant Garamond', serif; font-weight: 600; margin-bottom: 1rem; }
+        .text-content p { font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.25rem; color: var(--mid); }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+        
+        .value-box { background: var(--teal); color: white; padding: 1.5rem; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; }
+        .value-box.alt { background: var(--blue); }
+        .value-box h3 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .value-box p { font-size: 0.8rem; letter-spacing: 0.05em; opacity: 0.9; }
+        
+        .input-group { margin-bottom: 1rem; }
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--mid); margin-bottom: 0.25rem; }
+        .input-group input { width: 100%; padding: 0.5rem; border: 1px solid var(--rule); font-family: inherit; }
+        
+        #map { height: 450px; width: 100%; z-index: 1; }
 
         @media (max-width: 700px) {
             .projects-grid { grid-template-columns: 1fr; }
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            border-top: 1px solid var(--rule);
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.78rem;
-            color: var(--light);
-            letter-spacing: 0.08em;
-        }
-
-        footer a { color: var(--teal); text-decoration: none; }
-
-        @media (max-width: 700px) {
             .resume-grid { grid-template-columns: 1fr; gap: 2rem; }
             .hero-name { letter-spacing: 0.08em; }
         }
+
+        footer { border-top: 1px solid var(--rule); text-align: center; padding: 2rem; font-size: 0.78rem; color: var(--light); letter-spacing: 0.08em; }
+        footer a { color: var(--teal); text-decoration: none; }
     </style>
 </head>
 <body>
@@ -420,11 +158,7 @@
 <section id="home">
     <h1 class="hero-name">Will Crouch</h1>
     <p class="hero-tagline">
-        Operations
-        <span class="sep">|</span>
-        <span class="accent-teal">Analytics</span>
-        <span class="sep">|</span>
-        <span class="accent-blue">Implementation</span>
+        Operations <span class="sep">|</span> <span class="accent-teal">Analytics</span> <span class="sep">|</span> <span class="accent-blue">Implementation</span>
     </p>
     <div class="hero-cta">
         <a href="#projects" class="btn">View Projects</a>
@@ -434,153 +168,36 @@
 
 <div id="resume" class="section-wrap">
     <h2 class="section-heading">Resume</h2>
-
-    <div class="highlights">
-        <span class="chip">ML &amp; AI Strategy</span>
-        <span class="chip">Business &amp; Data Strategy</span>
-        <span class="chip">ERP Implementation</span>
-        <span class="chip">Project Management</span>
-        <span class="chip">ML &amp; AI Development</span>
-        <span class="chip">Financial Strategy &amp; Planning</span>
-        <span class="chip">Business Development</span>
     </div>
-
-    <div class="resume-grid">
-        <div>
-            <p class="subsection-label">Work Experience</p>
-
-            <div class="job">
-                <div class="job-meta">
-                    <span class="job-company">Apogee Travel</span>
-                    <span class="job-date">July 2022 – Present</span>
-                </div>
-                <h3 class="job-title">Vice President of Finance and Analytics</h3>
-                <ul>
-                    <li>Developed 5-year financial plan supporting $15MM in Angel &amp; Seed investments with zero-based budgeting and revenue projection tools</li>
-                    <li>Collaborated with legal counsel on IP strategy; initiated patent filing</li>
-                    <li>Created a statistical model to validate the business concept, converted into an interactive investor tool</li>
-                    <li>Negotiated a 3-year NetSuite renewal and implemented ERP and CRM in a 6-month launch</li>
-                    <li>Led a Deloitte engagement for ERP implementation, overseeing transition to ACS</li>
-                    <li>Built macroeconomic forecast models and a dynamic advertising returns model optimizing $300K in marketing spend</li>
-                    <li>Created compelling sales models showcasing Apogee's value proposition and mitigating customer risk</li>
-                </ul>
-            </div>
-
-            <div class="job">
-                <div class="job-meta">
-                    <span class="job-company">Pike Electric</span>
-                    <span class="job-date">Feb 2020 – June 2022</span>
-                </div>
-                <h3 class="job-title">Director of Fleet Systems and Analytics</h3>
-                <ul>
-                    <li>Developed an analytics team supporting core operations through statistical models and an IT partnership</li>
-                    <li>Created a 5-year data strategy roadmap for a $1B fleet asset portfolio</li>
-                    <li>Built and deployed the first fully automated regression and tree models for fleet operations</li>
-                    <li>Transformed fleet data entry to mobile, reducing backlog from 3 months to real-time and cutting error rate by 98%</li>
-                    <li>Led implementation of a mobile repair application for a 12,000+ unit fleet</li>
-                    <li>Developed an inventory clearinghouse that reduced spend by $100K per month</li>
-                </ul>
-            </div>
-
-            <div class="job">
-                <div class="job-meta">
-                    <span class="job-company">Pike Electric</span>
-                    <span class="job-date">Oct 2015 – Jan 2020</span>
-                </div>
-                <h3 class="job-title">Financial Analyst</h3>
-                <ul>
-                    <li>Co-created a mobile application transforming field operations for fleet repairs</li>
-                    <li>Co-led development of custom software combining 12+ data sources for new productivity analytics</li>
-                    <li>Product owner for a $3M project converting GPS data from 5,000+ units into structured analytics</li>
-                    <li>Designed and managed a 5-year bid model for a $1B contract</li>
-                    <li>Co-led 3 robotic process automation projects covering $100M in annual cost</li>
-                    <li>Budgeted for a $200M business unit with algorithmic forecasting implementation</li>
-                </ul>
-            </div>
-        </div>
-
-        <div>
-            <p class="subsection-label">Education</p>
-            <div class="edu-block">
-                <div class="edu-school">Johns Hopkins University</div>
-                <div class="edu-degree">M.S. Applied &amp; Computational Mathematics</div>
-            </div>
-            <div class="edu-block">
-                <div class="edu-school">Wake Forest University</div>
-                <div class="edu-degree">Master of Business Administration</div>
-            </div>
-            <div class="edu-block">
-                <div class="edu-school">Belmont Abbey College</div>
-                <div class="edu-degree">B.A. Business Management</div>
-            </div>
-
-            <div class="patent-section">
-                <p class="patent-label">Patent</p>
-                <a class="patent-link" href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/11593726" target="_blank">
-                    US-11593726-B2: System for Collecting and Analyzing Equipment Telematic Data →
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div id="projects" class="section-wrap" style="max-width:100%;padding-left:0;padding-right:0;">
     <h2 class="section-heading">Projects</h2>
     <div class="projects-grid">
 
-        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/ADR-Forecast/', 'ADR Forecast Dashboard', 'Forecasting')">
+        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/ADR-Forecast/', 'ADR Forecast Dashboard', 'Forecasting', 'iframe')">
             <div class="card-tag">Forecasting</div>
             <div class="card-title">ADR Forecast Dashboard</div>
             <p class="card-desc">Interactive Shiny dashboard analyzing and forecasting Average Daily Rates with time-series modeling.</p>
             <div class="card-arrow">Open App →</div>
         </div>
 
-        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/CostSim/', 'Cost Simulation', 'Simulation')">
+        <div class="project-card" onclick="openApp('apps/geospatial.html', 'Geospatial Distance', 'Geospatial', 'native', 'app-geospatial')">
+            <div class="card-tag">Geospatial</div>
+            <div class="card-title">Geospatial Distance</div>
+            <p class="card-desc">Geospatial distance calculation and visualization for territory and logistics analysis. (Lightning Fast JS Port)</p>
+            <div class="card-arrow">Open App →</div>
+        </div>
+
+        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/CostSim/', 'Cost Simulation', 'Simulation', 'iframe')">
             <div class="card-tag">Simulation</div>
             <div class="card-title">Cost Simulation</div>
             <p class="card-desc">Monte Carlo cost simulation tool for exploring probabilistic outcomes across operational scenarios.</p>
             <div class="card-arrow">Open App →</div>
         </div>
 
-        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/Estimation-Comparison', 'Estimation Comparison', 'Statistics')">
-            <div class="card-tag">Statistics</div>
-            <div class="card-title">Estimation Comparison</div>
-            <p class="card-desc">Side-by-side comparison of statistical estimation methods and their performance characteristics.</p>
-            <div class="card-arrow">Open App →</div>
-        </div>
-
-        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/Distance', 'Geospatial Distance', 'Geospatial')">
-            <div class="card-tag">Geospatial</div>
-            <div class="card-title">Geospatial Distance</div>
-            <p class="card-desc">Geospatial distance calculation and visualization for territory and logistics analysis.</p>
-            <div class="card-arrow">Open App →</div>
-        </div>
-
-        <div class="project-card" onclick="openApp('http://apps.willcrouch.com/Decay', 'ROI Decay Model', 'Marketing Analytics')">
-            <div class="card-tag">Marketing Analytics</div>
-            <div class="card-title">ROI Decay Model</div>
-            <p class="card-desc">Models the decay of marketing ROI over time to optimize ad spend allocation and timing.</p>
-            <div class="card-arrow">Open App →</div>
-        </div>
-
-        <div class="project-card" onclick="openApp('https://apps.willcrouch.com/Elevator/', 'Elevator Probability', 'Probability')">
-            <div class="card-tag">Probability</div>
-            <div class="card-title">Elevator Probability</div>
-            <p class="card-desc">Probabilistic simulation exploring wait-time and capacity distributions in elevator systems.</p>
-            <div class="card-arrow">Open App →</div>
-        </div>
-
-        <div class="project-card" onclick="openApp('https://www.willcrouch.com/ai-implementation', 'AI Implementation', 'AI / ML')">
-            <div class="card-tag">AI / ML</div>
-            <div class="card-title">AI Implementation</div>
-            <p class="card-desc">Enterprise AI implementation framework and case studies from real-world deployments.</p>
-            <div class="card-arrow">Read More →</div>
-        </div>
-
     </div>
 </div>
 
-<!-- APP VIEWER -->
 <div id="app-viewer">
     <div class="viewer-bar">
         <div class="viewer-bar-left">
@@ -589,31 +206,200 @@
         </div>
         <button class="btn-back" onclick="closeApp()">← Back to Portfolio</button>
     </div>
+    
     <iframe id="viewer-frame" src=""></iframe>
+    
+    <div id="native-app-container"></div>
 </div>
 
 <footer>
-    © 2025 Will Crouch &nbsp;·&nbsp; <a href="https://www.willcrouch.com" target="_blank">willcrouch.com</a>
+    © 2026 Will Crouch &nbsp;·&nbsp; <a href="https://www.willcrouch.com" target="_blank">willcrouch.com</a>
 </footer>
 
 <script>
-    function openApp(url, title, tag) {
+    // --- Portfolio Dynamic Fetch Router ---
+    
+    // The updated openApp signature includes `type` and an optional `appId`
+    async function openApp(url, title, tag, type = 'iframe', appId = null) {
         document.getElementById('viewer-tag').textContent = tag;
         document.getElementById('viewer-title').textContent = title;
-        document.getElementById('viewer-frame').src = url;
         document.getElementById('app-viewer').style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        
+        const nativeContainer = document.getElementById('native-app-container');
+        const iframe = document.getElementById('viewer-frame');
+
+        if (type === 'native') {
+            iframe.style.display = 'none';
+            nativeContainer.style.display = 'flex';
+            
+            // Hide all children in the container to make room for the active app
+            Array.from(nativeContainer.children).forEach(child => child.style.display = 'none');
+
+            // Check if we've already fetched and wrapped this app
+            let appWrapper = document.getElementById(appId);
+            
+            if (!appWrapper) {
+                // If not, create a new wrapper and fetch the HTML
+                appWrapper = document.createElement('div');
+                appWrapper.id = appId;
+                appWrapper.className = 'native-app-wrapper';
+                appWrapper.innerHTML = '<div style="padding: 2rem; text-align: center;">Loading Application...</div>';
+                nativeContainer.appendChild(appWrapper);
+
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    appWrapper.innerHTML = await response.text();
+                    
+                    // Force MathJax to process the newly injected HTML
+                    if (window.MathJax) {
+                        MathJax.typesetPromise([appWrapper]);
+                    }
+
+                } catch (error) {
+                    appWrapper.innerHTML = '<div style="padding: 2rem; color: red;">Failed to load application. Ensure you are running on a server.</div>';
+                    console.error('Error fetching app:', error);
+                    return;
+                }
+            } else {
+                // If it already exists, just unhide it
+                appWrapper.style.display = 'flex';
+            }
+            
+            // Route to the correct initialization function
+            if (appId === 'app-geospatial') {
+                initGeospatialApp();
+            }
+            
+        } else {
+            // Standard Shiny iFrame fallback
+            nativeContainer.style.display = 'none';
+            iframe.style.display = 'block';
+            iframe.src = url;
+        }
     }
 
     function closeApp() {
         document.getElementById('app-viewer').style.display = 'none';
         document.getElementById('viewer-frame').src = '';
+        document.getElementById('viewer-frame').style.display = 'none';
+        document.getElementById('native-app-container').style.display = 'none';
         document.body.style.overflow = '';
     }
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeApp();
     });
+
+    // --- Native Geospatial App Logic ---
+    let geoAppInitialized = false;
+    let map;
+    let markersAndLines = [];
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.app-content').forEach(c => c.classList.remove('active'));
+        
+        event.target.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+        
+        // Leaflet needs to know if its container size changed after un-hiding
+        if(tabId === 'tab-globe' && map) { map.invalidateSize(); }
+    }
+
+    function initGeospatialApp() {
+        // Prevent double initialization if they close and reopen the app
+        if (geoAppInitialized) { 
+            if(map) map.invalidateSize();
+            return; 
+        }
+        
+        // 1. Plotly Simulation (Ratio Tab)
+        const N = 2500;
+        const x = Array.from({length: N}, () => Math.random() * 2 - 1);
+        const y = Array.from({length: N}, () => Math.random() * 2 - 1);
+        
+        let outCircle = 0; let inCircle = 0;
+        for(let i=0; i<N; i++) { Math.sqrt(x[i]*x[i] + y[i]*y[i]) > 1 ? outCircle++ : inCircle++; }
+        
+        document.getElementById('val-sim-sq-circ').innerText = ((outCircle / N) * 100).toFixed(4) + '%';
+        document.getElementById('val-sim-circ-sq').innerText = ((inCircle / N) * 100).toFixed(4) + '%';
+
+        Plotly.newPlot('plotly-chart', [{
+            x: x, y: y, mode: 'markers', type: 'scatter', hoverinfo: 'none',
+            marker: { size: 4, color: '#3a6ea5', opacity: 0.6 }
+        }], {
+            margin: {t:0, b:0, l:0, r:0},
+            shapes: [{
+                type: 'circle', xref: 'x', yref: 'y',
+                x0: -1, y0: -1, x1: 1, y1: 1,
+                fillcolor: 'rgba(90, 90, 90, 0.4)', line: {color: 'rgb(5, 5, 5)'}
+            }],
+            xaxis: {range: [-1.1, 1.1]}, yaxis: {range: [-1.1, 1.1]}
+        });
+
+        // 2. Leaflet & Calculations (Globe Tab)
+        map = L.map('map').setView([25.7801, -80.129], 15);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+            subdomains: 'abcd', maxZoom: 20
+        }).addTo(map);
+
+        calculateDistances();
+        
+        // Bind inputs
+        ['lat1', 'lon1', 'lat2', 'lon2'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateDistances);
+        });
+
+        geoAppInitialized = true;
+    }
+
+    function calculateDistances() {
+        const lat1 = parseFloat(document.getElementById('lat1').value);
+        const lon1 = parseFloat(document.getElementById('lon1').value);
+        const lat2 = parseFloat(document.getElementById('lat2').value);
+        const lon2 = parseFloat(document.getElementById('lon2').value);
+        
+        if (isNaN(lat1) || isNaN(lon1) || isNaN(lat2) || isNaN(lon2)) return;
+
+        const R_earth = (2 * 6378137.0 + 6356752.314245) / 3;
+        const PI = Math.PI;
+
+        const rLat1 = lat1 * PI / 180; const rLat2 = lat2 * PI / 180;
+        const rLon1 = lon1 * PI / 180; const rLon2 = lon2 * PI / 180;
+        const hav = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((rLat1-rLat2)/2), 2) + Math.cos(rLat1)*Math.cos(rLat2)*Math.pow(Math.sin((rLon1-rLon2)/2), 2))) * R_earth;
+        
+        const px = PI * R_earth / 180 * (lon1 - lon2) * Math.cos(((lat1 + lat2) / 2) * PI / 180);
+        const py = PI * R_earth / 180 * (lat1 - lat2);
+        const polar = Math.sqrt(px*px + py*py);
+        
+        const simple = Math.sqrt(Math.pow(lat1-lat2, 2) + Math.pow(lon1-lon2, 2)) * 105000;
+        
+        const dLat = (lat1 - lat2) * PI / 180; const dLon = (lon1 - lon2) * PI / 180;
+        const simpleMod = Math.sqrt(Math.pow(lat1-lat2, 2) + Math.pow(lon1-lon2, 2)) * (105000 + Math.log(Math.abs(dLat/dLon || Number.EPSILON)) * 1000);
+
+        const fmt = (num) => num.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        const pct = (val, base) => (((val / base) - 1) * 100).toFixed(4) + '%';
+
+        document.getElementById('val-haversine').innerText = fmt(hav) + ' m';
+        document.getElementById('val-polar-dist').innerText = fmt(polar) + ' m';
+        document.getElementById('val-polar-delta').innerText = pct(polar, hav);
+        document.getElementById('val-simple-dist').innerText = fmt(simple) + ' m';
+        document.getElementById('val-simple-delta').innerText = pct(simple, hav);
+        document.getElementById('val-mod-dist').innerText = fmt(simpleMod) + ' m';
+        document.getElementById('val-mod-delta').innerText = pct(simpleMod, hav);
+
+        markersAndLines.forEach(layer => map.removeLayer(layer));
+        markersAndLines = [];
+        
+        const m1 = L.marker([lat1, lon1]).addTo(map);
+        const m2 = L.marker([lat2, lon2]).addTo(map);
+        const line = L.polyline([[lat1, lon1], [lat2, lon2]], {color: '#4aacb8', weight: 4}).addTo(map);
+        markersAndLines.push(m1, m2, line);
+        map.fitBounds(line.getBounds(), {padding: [50, 50]});
+    }
 </script>
 </body>
 </html>
