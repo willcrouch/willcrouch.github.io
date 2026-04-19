@@ -1,0 +1,112 @@
+<div class="app-nav">
+    <div class="app-tab active" onclick="switchTab('tab-distance')">Distance</div>
+    <div class="app-tab" onclick="switchTab('tab-ratio')">Radius vs Block</div>
+    <div class="app-tab" onclick="switchTab('tab-globe')">Global Distance</div>
+</div>
+
+<div id="tab-distance" class="app-content active">
+    <div class="box text-content">
+        <h2 class="box-title">Distance Calculations</h2>
+        <p><b>A review of distance calculations and a retrospective on simple bounding.</b></p>
+        <p>A few years ago, I was working on a project that utilized a lot of telemetry data and with that a lot of discussions around how to calculate distance between coordinates. Obviously, there are known ways to calculate the distance with great accuracy, but they are computationally costly.</p>
+        <p>The core issue we focused on was with trying to dynamically determine job sites... We had a lot of discussions around implementing a distance check with a radial distance vs bounding boxes. Our developers at the time were concerned that the number of calculations per day could be overwhelmingly burdensome.</p>
+        <p>The go-to distance calculation is the haversine formula, also known as “great circle distance”, assumes two sets of latitude and longitude $(latitude_1, longitude_1), (latitude_2, longitude_2)$</p>
+        <p>$$ \text{Distance} = \text{acos}(\text{sin}(lat_1)*\text{sin}(lat_2) + \text{cos}(lat_1)*\text{cos}(lat_2)*\text{cos}(lon_1-lon_2)) * \text{radius} $$</p>
+        <p>Note: acos is the function for arccosine or cos<sup>-1</sup>.</p>
+        <p>This is a difficult formula, and it takes good testing to make sure all the sines and cosines are properly accounted. For development speed we landed on quick boxes... This was fine, but we always wanted to look at solutions that worked better with radial distance and what the error was from simple degree rounding boxes.</p>
+    </div>
+</div>
+
+<div id="tab-ratio" class="app-content">
+    <div class="grid-2">
+        <div class="box text-content">
+            <p>This is a quick look at boxing versus radius distance. This is on a plane, and the impact of that is on the next tab. To compare the two, we’ll simplify down to the unit circle, a circle with a radius of 1 from the origin.</p>
+            <p>The circle and square have areas: $$A_{circle} = \pi r^2, A_{square} = L*W$$</p>
+            <p>With a radius of 1, assuming the square is capturing the same maximum distances, the length and width are 2. $$A_{circle} = \pi (1)^2, A_{square} = (2)* (2) \implies A_{circle} = \pi, A_{square} = 4$$</p>
+            <p>With that, the square captures 27.3% more space than the radial distance. A quick simulation shows how ~21% to 23% of total points in a square area outside of the circle.</p>
+            
+            <div class="grid-2" style="margin-top: 2rem;">
+                <div class="value-box">
+                    <h3 id="val-calc-sq-circ">127.32%</h3>
+                    <p>Calculated Square to Circle Ratio</p>
+                </div>
+                <div class="value-box alt">
+                    <h3 id="val-sim-sq-circ">--</h3>
+                    <p>Simulated Points out of Circle to Square Ratio</p>
+                </div>
+                <div class="value-box">
+                    <h3 id="val-calc-circ-sq">78.54%</h3>
+                    <p>Calculated Circle to Square Ratio</p>
+                </div>
+                <div class="value-box alt">
+                    <h3 id="val-sim-circ-sq">--</h3>
+                    <p>Simulated Points in Circle to Square Ratio</p>
+                </div>
+            </div>
+        </div>
+        <div class="box" style="display:flex; justify-content:center; align-items:center;">
+            <div id="plotly-chart" style="width:100%; max-width:500px; height:500px;"></div>
+        </div>
+    </div>
+</div>
+
+<div id="tab-globe" class="app-content">
+    <div class="grid-2">
+        <div>
+            <div class="grid-2" style="margin-bottom: 1rem;">
+                <div class="input-group">
+                    <label>Latitude 1</label>
+                    <input type="number" id="lat1" value="25.780161" step="0.0001">
+                </div>
+                <div class="input-group">
+                    <label>Longitude 1</label>
+                    <input type="number" id="lon1" value="-80.130341" step="0.0001">
+                </div>
+                <div class="input-group">
+                    <label>Latitude 2</label>
+                    <input type="number" id="lat2" value="25.780151" step="0.0001">
+                </div>
+                <div class="input-group">
+                    <label>Longitude 2</label>
+                    <input type="number" id="lon2" value="-80.128388" step="0.0001">
+                </div>
+            </div>
+            <div class="box" style="padding:0;">
+                <div id="map"></div>
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="value-box" style="grid-column: span 2;">
+                <h3 id="val-haversine">-- m</h3>
+                <p>Haversine Formula Distance</p>
+            </div>
+            <div class="value-box alt">
+                <h3 id="val-polar-dist">-- m</h3>
+                <p>Polar Approx Distance</p>
+            </div>
+            <div class="value-box alt">
+                <h3 id="val-polar-delta">-- %</h3>
+                <p>Polar Approx Diff</p>
+            </div>
+            <div class="value-box alt">
+                <h3 id="val-simple-dist">-- m</h3>
+                <p>Simple Radial Approx</p>
+            </div>
+            <div class="value-box alt">
+                <h3 id="val-simple-delta">-- %</h3>
+                <p>Simple Radial Diff</p>
+            </div>
+            <div class="value-box alt">
+                <h3 id="val-mod-dist">-- m</h3>
+                <p>Modified Simple Approx</p>
+            </div>
+            <div class="value-box alt">
+                <h3 id="val-mod-delta">-- %</h3>
+                <p>Modified Simple Diff</p>
+            </div>
+        </div>
+    </div>
+    <div class="box text-content" style="margin-top: 2rem;">
+        <p>Above is a comparison between 3 alternate formulas compared to the haversine formula... Most of the errors are between 0 and +/- 5% from the haversine calculation.</p>
+    </div>
+</div>
